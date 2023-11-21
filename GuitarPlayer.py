@@ -24,7 +24,7 @@
 from adafruit_servokit import ServoKit
 import time
 import mido
-import pigpio
+#import pigpio
 
 def map_midi_into_letter(midi_notes):
     if midi_notes == 57:
@@ -35,7 +35,7 @@ def map_midi_into_letter(midi_notes):
         return "D4"
         
         
-def map_midi_to_server(note):
+def map_midi_to_server(note,kit):
     if note == "A3":
         kit.servo[0].angle = 20
         time.sleep(1)
@@ -53,13 +53,13 @@ def map_midi_to_server(note):
         return 2
         
 def main(args):
-    pi = pigpio.pi()
+    #pi = pigpio.pi()
     kit = ServoKit(channels=16)
-    fin = mido.MidiFile('sonata_1_1_(c)iscenko.mid')
+    fin = mido.MidiFile('/home/guitar/Desktop/New Devices/Project/c14/sonata_1_1__c_iscenko.mid')
     for message in fin.play():
         if message.type in ['note_on', 'note_off']:
             outgoing_letter = map_midi_into_letter(message.note)
-            outgoing_turned_servo = map_midi_to_server(outgoing_letter)
+            outgoing_turned_servo = map_midi_to_server(outgoing_letter,kit)
     
 
 
