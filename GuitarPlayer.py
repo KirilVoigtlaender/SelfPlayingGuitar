@@ -28,25 +28,25 @@ import pigpio
 
 def map_midi_into_letter(midi_notes):
     if midi_notes == 57:
-        return A3
+        return "A3"
     elif midi_notes == 67:
-        return G4
+        return "G4"
     elif midi_notes == 62:
-        return D4
+        return "D4"
         
         
 def map_midi_to_server(note):
-    if note == A3:
+    if note == "A3":
         kit.servo[0].angle = 20
         time.sleep(1)
         kit.servo[0].angle = 140
         return 0
-    elif note == D4:
+    elif note == "D4":
         kit.servo[1].angle = 20
         time.sleep(1)
         kit.servo[1].angle = 140
         return 1
-    elif note == G4:
+    elif note == "G4":
         kit.servo[2].angle = 20
         time.sleep(1)
         kit.servo[2].angle = 140
@@ -55,9 +55,11 @@ def map_midi_to_server(note):
 def main(args):
     pi = pigpio.pi()
     kit = ServoKit(channels=16)
-
-    print("hello world")
-    time.sleep(2)
+    fin = mido.MidiFile('sonata_1_1_(c)iscenko.mid')
+    for message in fin.play():
+        if message.type in ['note_on', 'note_off']:
+            outgoing_letter = map_midi_into_letter(message.note)
+            outgoing_turned_servo = map_midi_to_server(outgoing_letter)
     
 
 
