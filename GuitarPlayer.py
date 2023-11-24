@@ -27,31 +27,55 @@ import mido
 #import pigpio
 
 def map_midi_into_letter(midi_notes):
-    if midi_notes == 57:
-        return "A3"
-    elif midi_notes == 67:
-        return "G4"
-    elif midi_notes == 62:
-        return "D4"
+    notes = ["A2","A#2","B2","C3","C#3","D3","D#3","E3","F3","F#3","G3","G#3","A3","A#3","B3","C4","C#4","D4","D#4"]
+    return notes[midi_notes-45]
+
+    # if midi_notes == 57:
+    #     return "A3"
+    # elif midi_notes == 67:
+    #     return "G4"
+    # elif midi_notes == 62:
+    #     return "D4"
         
         
-def map_midi_to_server(note,kit):
-    if note == "A3":
+def map_midi_to_server(note, kit):
+    if note == "A2":
         kit.servo[0].angle = 20
         time.sleep(1)
         kit.servo[0].angle = 140
         return 0
-    elif note == "D4":
+    elif note == "D3":
         kit.servo[1].angle = 20
         time.sleep(1)
         kit.servo[1].angle = 140
         return 1
-    elif note == "G4":
+    elif note == "G3":
         kit.servo[2].angle = 20
         time.sleep(1)
         kit.servo[2].angle = 140
         return 2
-        
+
+
+def fret_string(string, position, kit):
+    servonumber = string + position//2 + 2
+    if(position%2 == 1):
+        kit.servo[servonumber].angle = 20
+        time.sleep(1)
+        kit.servo[servonumber].angle = 80
+    else:
+        kit.servo[servonumber].angle = 140
+        time.sleep(1)
+        kit.servo[servonumber].angle = 80
+
+def pluck_string(string, kit):
+    if(kit.servo[string].angle == 140):
+        kit.servo[string].angle = 20
+    else:
+        kit.servo[string].angle = 140
+
+def play_strings(fin, kit):
+    string_is_playing = [False,False,False]
+
 def main(args):
     #pi = pigpio.pi()
     kit = ServoKit(channels=16)
