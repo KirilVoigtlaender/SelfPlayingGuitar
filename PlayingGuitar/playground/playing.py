@@ -1,5 +1,7 @@
 import mido
 from adafruit_servokit import ServoKit
+from .midi_functions.map_midi_into_letter import map_midi_into_letter
+from .midi_functions.map_midi_to_server import map_midi_to_server
 def playing():
     kit = ServoKit(channels=16)
     fin = mido.MidiFile('/home/guitar/Desktop/New Devices/Project/c14/sonata_1_1__c_iscenko.mid')
