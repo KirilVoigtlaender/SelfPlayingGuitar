@@ -3,7 +3,7 @@ from adafruit_servokit import ServoKit
 from .midi_functions.map_midi_into_letter import map_midi_into_letter
 from .midi_functions.map_midi_to_server import map_midi_to_server
 from .models import Midi_file
-def playing(file):
+def playing():
     kit = ServoKit(channels=16)
     #file = Midi_file . 
     #fin = mido.MidiFile(file)
