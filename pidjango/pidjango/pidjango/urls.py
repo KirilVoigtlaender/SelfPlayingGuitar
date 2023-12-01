@@ -16,7 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from playground import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('file_selection/', views.file_selection, name='file_selection'),
+    path('read_file/<int:file_id>/', views.read_file, name='read_file'),
 ]
