@@ -1,5 +1,5 @@
 {% load widget_tweaks %}
-{% with WIDGET_ERROR_CLASS = 'is-invalid'}
+{% with WIDGET_ERROR_CLASS='is-invalid' %}
 <!--Creates the form to add new files-->>
 <form hx-post="{{request.path}}" hx-headers = '{"X-CSRFToken":"{{ csrf_token}}"}' class="modal-content">
     <div class="modal-header">
@@ -9,18 +9,18 @@
     <div class="modal-body">
         <div class="mb-3">
             <label for="{{form.name.id_for_label}}" class="form-label">Name</label>
-            {% render_field form.name class = "form-control" placeholder = "First Song" %}
+            {% render_field form.name class="form-control" placeholder="First Song" %}
             <div class="invalid-feedback">{{form.name.errors|first}}</div>
         </div>
         <div class="mb-3">
             <label for="{{form.path.id_for_label}}" class="form-label">Path</label>
-            {% render_field form.path class = "form-control"  %}
+            {% render_field form.path class="form-control"  %}
             <div class="invalid-feedback">{{form.path.errors|first}}</div>
         </div>
     </div>
     <div class="modal footer">
         {% if file %}
-        <button type="button" class="btn btn-danger" hx-post = "{%url 'remove_file' pk = file.pk}">Remove</button>
+        <button type="button" class="btn btn-danger" hx-post="{%url 'remove_file' pk=file.pk}">Remove</button>
         <span class="flex-grow-1"></span>
         {% endif %}
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
