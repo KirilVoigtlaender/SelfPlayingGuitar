@@ -22,8 +22,13 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('file_selection/', views.file_selection, name='file_selection'),
+    # path('file_selection/', views.file_selection, name='file_selection'),
     #path('read_file/<int:file_id>/', views.read_file, name='read_file'),
+    path('',views.index),
+    path('file', views.file_list, name='file_list'),#File
+    path('file/add', views.add_file, name='add_file'),#File
+    path('file/<int:pk>/remove', views.remove_file, name='remove_file'),#File
+    path('file/<int:pk>/edit', views.edit_file, name='edit_file'),#File
 ]
 
 if settings.DEBUG:
