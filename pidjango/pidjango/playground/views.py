@@ -32,24 +32,24 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import FileForm  # Replace with your actual form
-from .models import Midi_file
+from .models import File
 import mido
 from adafruit_servokit import ServoKit
 from .midi_functions.map_midi_into_letter import map_midi_into_letter
 from .midi_functions.map_midi_to_server import map_midi_to_server
 
-def your_view(request):
+def file_selection(request):
     if request.method == 'POST':
         form = FileForm(request.POST, request.FILES)
         if form.is_valid():
             selected_file_id = request.POST.get('selected_file')
-            selected_file = Midi_file.objects.get(id=selected_file_id)
+            selected_file = File.objects.get(id=selected_file_id)
             play_selected_file(selected_file.path)
             return HttpResponse("File is being played.")
     else:
         form = FileForm()
 
-    files = Midi_file.objects.all()
+    files = File.objects.all()
     return render(request, 'file_selection.html', {'form': form, 'files': files})
 
 def play_selected_file(file_path):
