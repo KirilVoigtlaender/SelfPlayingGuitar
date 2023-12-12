@@ -29,6 +29,8 @@ urlpatterns = [
     path('file/add', views.add_file, name='add_file'),#File
     path('file/<int:pk>/remove', views.remove_file, name='remove_file'),#File
     path('file/<int:pk>/edit', views.edit_file, name='edit_file'),#File
+    path('file/<int:pk>/play',views.play_file, name='play_file'),#File
+    path('file/succesful_upload', views.succesful_upload, name='succesful_upload')
 ]
 
 if settings.DEBUG:

@@ -13,6 +13,9 @@
             <!--Delete Button-->
             <button type="submit" class="btn btn-danger btn-sm"> Delete </button>
         </form>    
-</td>
+    </td>
+    <td>
+        <button class="btn btn-primary btn-sm" hx-get="{%url 'play_file' pk=file.pk %}" hx-target="#dialog"> Play</button>
+    </td>
 </tr>
 {% endfor %}       

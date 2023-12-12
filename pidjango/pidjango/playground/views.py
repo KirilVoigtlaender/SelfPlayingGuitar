@@ -73,6 +73,7 @@ from django.template import loader
 from .models import File
 from .forms import FileForm
 from .playing import playing
+from django.shortcuts import redirect
 
 def index(request):
     #main view with the button
@@ -83,22 +84,26 @@ def file_list(request):
     return render(request, 'file_list.html', {
         'file_list': File.objects.all(), #Update the key to 'file_list'
     })
+def succesful_upload(request):
+    return HttpResponse("succesfully uploaded file")
 def add_file(request):
-    form = FileForm()
+    # form = FileForm()
     if request.method == "POST":
-        form = FileForm(request.POST)
+        form = FileForm(request.POST, request.FILES)
         if form.is_valid():
-            file = form.save()
-            return HttpResponse (
-                status= 204,
-                headers ={
-                    'HX-Trigger': json.dumps({
-                        "FileListChanged": None,
-                        "showMessage": f"{file.name} added"
-                    })
-                }
-            )
-    return render(request, 'file_form.html', {'form': form}) 
+            form.save()
+        return redirect(succesful_upload)
+            # return HttpResponse (
+            #     status= 204,
+            #     headers ={
+            #         'HX-Trigger': json.dumps({
+            #             "FileListChanged": None,
+            #             "showMessage": f"{file.name} added"
+            #         })
+            #     }
+            # )
+    return render(request, 'file_form.html', {'form': FileForm}) 
+
 
 def edit_file(request, pk):
     file = get_object_or_404(File, pk=pk)
@@ -117,7 +122,18 @@ def edit_file(request, pk):
                 }
             )
     return render(request, 'file_form.html', {'form': form})
-
+def play_file(request, pk):
+    file = get_object_or_404(File, pk = pk)
+    playing(file.path)
+    return HttpResponse(
+                status=204,
+                headers={
+                    'HX-Trigger': json.dumps({
+                        "FileListChanged": None,
+                        "showMessage": f"{file.name} played."
+                    })
+                }
+            )
 @ require_POST
 def remove_file(request, pk):
     file = get_object_or_404(File, pk=pk)
