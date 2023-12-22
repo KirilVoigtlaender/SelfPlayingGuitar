@@ -45,30 +45,30 @@ def map_midi_to_server(note, kit):
         # kit.servo[0].angle = 20
         # time.sleep(1)
         # kit.servo[0].angle = 140
-        return (0,0)
+        return 0,0
     elif note == "D3":
         # kit.servo[1].angle = 20
         # time.sleep(1)
         # kit.servo[1].angle = 140
-        return (0,1)
+        return 0,1
     elif note == "G3":
         # kit.servo[2].angle = 20
         # time.sleep(1)
         # kit.servo[2].angle = 140
-        return (0,2)
+        return 0,2
     elif note == "D#3":
-        return (1,1)        
+        return 1,1       
     elif note == "E3":
-        return (2,1)
+        return 2,1
     elif note == "G#3":
-        return (1,2)
+        return 1,2
     elif note == "A3":
-        return (2,2)
+        return 2,2
     
 
 
 def fret_string(string, position, kit):
-    servonumber = string + position//2 + 2
+    servonumber = string + 13 
     if(position%2 == 1):
         kit.servo[servonumber].angle = 60
         time.sleep(1)
@@ -90,7 +90,7 @@ def play_strings(fin, kit):
     for message in fin.play():
         if message.type  in ['note_on']:
             note = map_midi_into_letter(message.note)
-            position, string = map_midi_to_server(note)
+            position, string = map_midi_to_server(note,kit)
             if string_is_playing[string] == False:
                 string_is_playing[string] = True
                 fret_string(string,position,kit)
@@ -100,26 +100,26 @@ def play_strings(fin, kit):
 def main(args):
     #file_path = file_field.path
     kit = ServoKit(channels=16)
-<<<<<<< HEAD
+
     #fin = mido.MidiFile('/home/guitar/Desktop/New Devices/Project/c14/sonata_1_1__c_iscenko.mid')
     #for message in fin.play():
      #   if message.type in ['note_on', 'note_off']:
       #      outgoing_letter = map_midi_into_letter(message.note)
        #     outgoing_turned_servo = map_midi_to_server(outgoing_letter,kit)
-    kit.servo[0].angle = 110
-    kit.servo[1].angle = 60
+    #kit.servo[0].angle = 110
+    #kit.servo[1].angle = 60
     
-=======
+
     #file = Midi_file . 
     #fin = mido.MidiFile(file)
-    fin = mido.MidiFile("some.mid")
+    fin = mido.MidiFile('/home/guitar/Desktop/New Devices/Project/c14/sonata_1_1__c_iscenko.mid')
     # for message in fin.play():
     #     if message.type in ['note_on', 'note_off']:
     #         outgoing_letter = map_midi_into_letter(message.note)
     #         outgoing_turned_servo = map_midi_to_server(outgoing_letter,kit)
     play_strings(fin,kit)
     return 0
->>>>>>> de0a31548eb74dbcac54e857f26cf50b6944b16b
+
     
 
     
