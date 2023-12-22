@@ -84,9 +84,12 @@ def main(args):
      #   if message.type in ['note_on', 'note_off']:
       #      outgoing_letter = map_midi_into_letter(message.note)
        #     outgoing_turned_servo = map_midi_to_server(outgoing_letter,kit)
-    kit.servo[0].angle = 90
+    kit.servo[0].angle = 110
+    kit.servo[1].angle = 60
+    
     
 
+    
     
 
 
