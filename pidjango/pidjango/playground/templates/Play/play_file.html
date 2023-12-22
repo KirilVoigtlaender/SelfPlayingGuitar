@@ -1,0 +1,10 @@
+{% for file in play_list %}
+<!--Display all the files from the databse in a table-->
+<tr id="file-{{file.pk}}" class="file-row"> 
+    <td>{{file.name}}</td>
+    <td>{{file.path}}</td>
+    <td>
+        <button class="btn btn-success btn-sm" hx-get="{%url 'play_file' pk=file.pk %}" hx-target="#dialog"> Play</button>
+    </td>
+</tr>
+{% endfor %}       

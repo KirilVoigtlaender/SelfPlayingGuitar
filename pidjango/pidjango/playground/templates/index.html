@@ -1,6 +1,20 @@
 {% load static %}
 <!DOCTYPE html>
 
+<style>
+  /*Go home button styling*/
+  .Back_Button {
+    position: fixed;
+    right: 10px; bottom: 10px;
+    padding: 30px;
+  }
+  </style>
+  
+  <!--Go back to home button with link-->
+  <div class="Back_Button">
+    <a href="http://127.0.0.1:8000/website/" class="btn btn-danger" role="button">Home</a>
+  </div>
+
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -35,11 +49,8 @@
         </tbody>
       </table>
       <!--Add task button (load the task form pop-up)-->
-      <button hx-get="{% url 'add_file' %}" hx-target="#dialog" class="btn btn-primary">
-        Add a midi file
-      </button>
-    </div>
 
+    </div>
     <!-- Placeholder for the modal -->
     <div id="modal" class="modal fade">
       <div id="dialog" class="modal-dialog" hx-target="this"></div>

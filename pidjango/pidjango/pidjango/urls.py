@@ -24,13 +24,18 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('file_selection/', views.file_selection, name='file_selection'),
     #path('read_file/<int:file_id>/', views.read_file, name='read_file'),
-    path('',views.index),
-    path('file', views.file_list, name='file_list'),#File
-    path('file/add', views.add_file, name='add_file'),#File
-    path('file/<int:pk>/remove', views.remove_file, name='remove_file'),#File
-    path('file/<int:pk>/edit', views.edit_file, name='edit_file'),#File
-    path('file/<int:pk>/play',views.play_file, name='play_file'),#File
-    path('file/succesful_upload', views.succesful_upload, name='succesful_upload')
+    #path('',views.index),
+    path('delete',views.delete),#delete files
+    path('delete/delete', views.delete_list, name='delete_list'),#delete Files
+    path('delete/delete/<int:pk>/remove', views.remove_file, name='remove_file'),#delete Files
+    path('edit',views.edit),#edit Files
+    path('edit/edit', views.edit_list, name='edit_list'),#edit Files
+    path('edit/edit/<int:pk>/edit', views.edit_file, name='edit_file'),#edit Files
+    path('play',views.play),#play files
+    path('play/play', views.play_list, name='play_list'),#play files
+    path('play/play/<int:pk>/play',views.play_file, name='play_file'),#play files
+    path('add/', views.add_file, name='add_file'),#add Files
+    path('', views.website),#main page
 ]
 
 if settings.DEBUG:
