@@ -28,7 +28,8 @@ import mido
 
 def map_midi_into_letter(midi_notes):
     notes = ["A2","A#2","B2","C3","C#3","D3","D#3","E3","F3","F#3","G3","G#3","A3","A#3","B3","C4","C#4","D4","D#4"]
-    return notes[midi_notes-45]
+    if midi_notes-45 >=0 and midi_notes-45 < 19:
+        return notes[midi_notes-45]
 
     # if midi_notes == 57:
     #     return "A3"
@@ -37,35 +38,45 @@ def map_midi_into_letter(midi_notes):
     # elif midi_notes == 62:
     #     return "D4"
         
+
         
 def map_midi_to_server(note, kit):
     if note == "A2":
-        kit.servo[0].angle = 20
-        time.sleep(1)
-        kit.servo[0].angle = 140
-        return 0
+        # kit.servo[0].angle = 20
+        # time.sleep(1)
+        # kit.servo[0].angle = 140
+        return (0,0)
     elif note == "D3":
-        kit.servo[1].angle = 20
-        time.sleep(1)
-        kit.servo[1].angle = 140
-        return 1
+        # kit.servo[1].angle = 20
+        # time.sleep(1)
+        # kit.servo[1].angle = 140
+        return (0,1)
     elif note == "G3":
-        kit.servo[2].angle = 20
-        time.sleep(1)
-        kit.servo[2].angle = 140
-        return 2
+        # kit.servo[2].angle = 20
+        # time.sleep(1)
+        # kit.servo[2].angle = 140
+        return (0,2)
+    elif note == "D#3":
+        return (1,1)        
+    elif note == "E3":
+        return (2,1)
+    elif note == "G#3":
+        return (1,2)
+    elif note == "A3":
+        return (2,2)
+    
 
 
 def fret_string(string, position, kit):
     servonumber = string + position//2 + 2
     if(position%2 == 1):
-        kit.servo[servonumber].angle = 20
+        kit.servo[servonumber].angle = 60
         time.sleep(1)
-        kit.servo[servonumber].angle = 80
+        kit.servo[servonumber].angle = 90
     else:
-        kit.servo[servonumber].angle = 140
+        kit.servo[servonumber].angle = 120
         time.sleep(1)
-        kit.servo[servonumber].angle = 80
+        kit.servo[servonumber].angle = 90
 
 def pluck_string(string, kit):
     if(kit.servo[string].angle == 140):
@@ -75,10 +86,21 @@ def pluck_string(string, kit):
 
 def play_strings(fin, kit):
     string_is_playing = [False,False,False]
+    
+    for message in fin.play():
+        if message.type  in ['note_on']:
+            note = map_midi_into_letter(message.note)
+            position, string = map_midi_to_server(note)
+            if string_is_playing[string] == False:
+                string_is_playing[string] = True
+                fret_string(string,position,kit)
+                pluck_string(string,kit)
+                string_is_playing[string] = False
 
 def main(args):
-    #pi = pigpio.pi()
+    #file_path = file_field.path
     kit = ServoKit(channels=16)
+<<<<<<< HEAD
     #fin = mido.MidiFile('/home/guitar/Desktop/New Devices/Project/c14/sonata_1_1__c_iscenko.mid')
     #for message in fin.play():
      #   if message.type in ['note_on', 'note_off']:
@@ -87,6 +109,17 @@ def main(args):
     kit.servo[0].angle = 110
     kit.servo[1].angle = 60
     
+=======
+    #file = Midi_file . 
+    #fin = mido.MidiFile(file)
+    fin = mido.MidiFile("some.mid")
+    # for message in fin.play():
+    #     if message.type in ['note_on', 'note_off']:
+    #         outgoing_letter = map_midi_into_letter(message.note)
+    #         outgoing_turned_servo = map_midi_to_server(outgoing_letter,kit)
+    play_strings(fin,kit)
+    return 0
+>>>>>>> de0a31548eb74dbcac54e857f26cf50b6944b16b
     
 
     
