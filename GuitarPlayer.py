@@ -41,42 +41,92 @@ def map_midi_into_letter(midi_notes):
 
         
 def map_midi_to_server(note, kit):
+    # returns string, fret   based on note
     if note == "A2":
-        # kit.servo[0].angle = 20
-        # time.sleep(1)
-        # kit.servo[0].angle = 140
         return 0,0
-    elif note == "D3":
-        # kit.servo[1].angle = 20
-        # time.sleep(1)
-        # kit.servo[1].angle = 140
-        return 0,1
-    elif note == "G3":
-        # kit.servo[2].angle = 20
-        # time.sleep(1)
-        # kit.servo[2].angle = 140
+    elif note == "A#2":
+        return 0, 1
+    elif note == "B2":
         return 0,2
-    elif note == "D#3":
-        return 1,1       
-    elif note == "E3":
-        return 2,1
-    elif note == "G#3":
-        return 1,2
-    elif note == "A3":
-        return 2,2
+    elif note == "C3":
+        return 0,3
+    elif note == "C#3":
+        return 0,4
+    # elif note == "D3":
+    #     if something:
+    #         return 0,5 
+    #     else:
+    #         return 1,0 
+    # elif note == "D#3":
+    #     if something:
+    #         return 0,6 
+    #     else:
+    #         return 1,1 
+    # elif note == "E3":
+    #     if something:
+    #         return 0,7  
+    #     else:
+    #         return 1,2 
+    # elif note == "F3":
+    #     if something:
+    #         return 0,8  
+    #     else:
+    #         return 1,3 
+    elif note == "F#3":
+        return 1,4
+    # elif note == "G3":
+    #     if something:
+    #         return 1,5  
+    #     else:
+    #         return 2,0 
+    # elif note == "G#3":
+    #     if something:
+    #         return 1,6  
+    #     else:
+    #         return 2,1 
+    # elif note == "A3":
+    #     if something:
+    #         return 1,7  
+    #     else:
+    #         return 2,2 
+    # elif note == "A#3":
+    #     if something:
+    #         return 1,8  
+    #     else:
+    #         return 2,3 
+    elif note == "B3":
+        return 2,4
+    elif note == "C4":
+        return 2,5
+    elif note == "C#4":
+        return 2,6
+    elif note == "D4":
+        return 2,7
+    elif note == "D#4":
+        return 2,8
+
+
+def fret_string(string, fret, kit):
+    servonumber = 3
+    left_right = 0
     
-
-
-def fret_string(string, position, kit):
-    servonumber = string + 13 
-    if(position%2 == 1):
-        kit.servo[servonumber].angle = 60
-        time.sleep(1)
-        kit.servo[servonumber].angle = 90
+    if(fret%2 == 1):
+        left_right = 1
     else:
-        kit.servo[servonumber].angle = 120
-        time.sleep(1)
-        kit.servo[servonumber].angle = 90
+        left_right = 2
+    if(fret == 1 or fret == 2):
+        servonumber = 13 + string
+    elif(fret == 3 or fret == 4):
+        servonumber = 10 + string
+    elif(fret == 5 or fret == 6):
+        servonumber = 7 + string
+    elif(fret == 7 or fret == 8):
+        servonumber = 4 + string
+    
+    # if(left_right == 1):
+    #     kit.servo[servonumber].angle(TODO)
+    # elif(left_right == 2):
+    #     kit.servo[servonumber].angle(TODO)
 
 def pluck_string(string, kit):
     if(kit.servo[string].angle == 140):
@@ -85,16 +135,22 @@ def pluck_string(string, kit):
         kit.servo[string].angle = 140
 
 def play_strings(fin, kit):
+    ticks_per_beat = fin.ticks_per_beat
     string_is_playing = [False,False,False]
     
     for message in fin.play():
+        ticks = message.time
+        waiting_time = mido.tick2second(ticks,ticks_per_beat,500000)
+        time.sleep(waiting_time)
         if message.type  in ['note_on']:
             note = map_midi_into_letter(message.note)
-            position, string = map_midi_to_server(note,kit)
+            string, fret = map_midi_to_server(note,kit)
             if string_is_playing[string] == False:
                 string_is_playing[string] = True
-                fret_string(string,position,kit)
-                pluck_string(string,kit)
+                # fret_string(string,fret,kit)
+                # pluck_string(string,kit)
+                print(note)
+                print(time.time())
                 string_is_playing[string] = False
 
 def main(args):
@@ -112,7 +168,7 @@ def main(args):
 
     #file = Midi_file . 
     #fin = mido.MidiFile(file)
-    fin = mido.MidiFile('/home/guitar/Desktop/New Devices/Project/c14/sonata_1_1__c_iscenko.mid')
+    fin = mido.MidiFile("C:\Users\Kiril\OneDrive - Radboud Universiteit\Bureaublad\NDL\Project\c14\sonata_1_1__c_iscenko.mid")
     # for message in fin.play():
     #     if message.type in ['note_on', 'note_off']:
     #         outgoing_letter = map_midi_into_letter(message.note)
