@@ -9,7 +9,7 @@ from .models import File
 from .forms import FileForm
 from .playing import playing
 from django.shortcuts import redirect
-
+from .functions import handle_uploaded_file
 
 def index(request):
     #main view with the button
@@ -63,23 +63,36 @@ def add_file(request):
     return render(request, 'Add/file_form.html', {'form': FileForm}) 
 
 
+# def edit_file(request, pk):
+#     file = get_object_or_404(File, pk=pk)
+#     form = FileForm(instance=file)  # Define an empty form instance
+#     if request.method == 'POST':
+#         form = FileForm(request.POST, instance=file)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponse(
+#                 status=204,
+#                 headers={
+#                     'HX-Trigger': json.dumps({
+#                         "FileListChanged": None,
+#                         "showMessage": f"{file.name} updated."
+#                     })
+#                 }
+#             )
+    #return render(request, 'Add/file_form.html', {'form': form})
 def edit_file(request, pk):
     file = get_object_or_404(File, pk=pk)
-    form = FileForm(instance=file)  # Define an empty form instance
+    form = FileForm(instance=file)
+
     if request.method == 'POST':
         form = FileForm(request.POST, instance=file)
         if form.is_valid():
             form.save()
-            return HttpResponse(
-                status=204,
-                headers={
-                    'HX-Trigger': json.dumps({
-                        "FileListChanged": None,
-                        "showMessage": f"{file.name} updated."
-                    })
-                }
-            )
-    return render(request, 'Add/file_form.html', {'form': form})
+            # Redirect to the edit list view after saving changes
+            return redirect('edit')
+
+    return render(request, 'Edit/edit_form.html', {'form': form, 'file': file})
+
 
 def play_file(request, pk):
     file = get_object_or_404(File, pk = pk)
