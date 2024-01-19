@@ -125,9 +125,15 @@ def fret_string(string, fret, kit):
         servonumber = 4 + string
     
     if(left_right == 1):
-        kit.servo[servonumber].angle = 40
+        if(servonumber== 14 or servonumber ==11 or servonumber ==8 or servonumber == 5):
+            kit.servo[servonumber].angle = 87
+        else:
+            kit.servo[servonumber].angle = 75
     elif(left_right == 2):
-        kit.servo[servonumber].angle = 140
+        if(servonumber== 14 or servonumber ==11 or servonumber ==8 or servonumber == 5):
+            kit.servo[servonumber].angle = 117
+        else:
+            kit.servo[servonumber].angle = 105
     print(servonumber)
 
 
@@ -156,8 +162,10 @@ def unfret_string(string,fret,kit):
         servonumber = 7 + string
     elif(fret == 7 or fret == 8):
         servonumber = 4 + string
-    
-    kit.servo[servonumber].angle = 90
+    if(servonumber== 14 or servonumber ==11 or servonumber ==8 or servonumber == 5):
+        kit.servo[servonumber].angle = 102 
+    else:
+        kit.servo[servonumber].angle = 90
     print("un", servonumber)
 
 
@@ -181,11 +189,11 @@ def play_strings(fin, kit):
             #if string_is_playing[string] == False:
                 #string_is_playing[string] = True
                 fret_string(string,fret,kit)
-                #time.sleep(1)
+                time.sleep(0.3)
                 pluck_string(string,kit)
-                #time.sleep(1)
+                time.sleep(0.3)
                 unfret_string(string,fret,kit)
-                #time.sleep(1)
+                time.sleep(0)
             
                 #print(note)
                 #print(time.time())
