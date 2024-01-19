@@ -1,0 +1,13 @@
+<!-- file_selection.html -->
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="file" name="path" accept=".mid">
+    <button type="submit" name="action" value="play">Play Selected File</button>
+</form>
+
+<select name="selected_file">
+    {% for file in files %}
+        <option value="{{ file.id }}">{{ file.name }}</option>
+    {% endfor %}
+</select>

@@ -9,7 +9,7 @@ from .models import File
 from .forms import FileForm
 from .playing import playing
 from django.shortcuts import redirect
-from .functions import handle_uploaded_file
+
 
 def index(request):
     #main view with the button
