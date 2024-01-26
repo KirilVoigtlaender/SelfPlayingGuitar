@@ -21,17 +21,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    # path('file_selection/', views.file_selection, name='file_selection'),
-    #path('read_file/<int:file_id>/', views.read_file, name='read_file'),
-    #path('',views.index),
+    path('admin/', admin.site.urls),#admin site
     path('delete',views.delete),#delete files
     path('delete/delete', views.delete_list, name='delete_list'),#delete Files
     path('delete/delete/<int:pk>/remove', views.remove_file, name='remove_file'),#delete Files
     path('edit',views.edit, name= 'edit'),#edit Files
     path('edit/edit', views.edit_list, name='edit_list'),#edit Files
     path('edit/edit/<int:pk>/edit', views.edit_file, name='edit_file'),#edit Files
-    path('edit/edit/<int:pk>/form', views.edit_file, name='edit_form'),
+    path('edit/edit/<int:pk>/form', views.edit_file, name='edit_form'),#edit files
     path('play',views.play),#play files
     path('play/play', views.play_list, name='play_list'),#play files
     path('play/play/<int:pk>/play',views.play_file, name='play_file'),#play files

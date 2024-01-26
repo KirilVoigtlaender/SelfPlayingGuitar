@@ -11,11 +11,6 @@ from .playing import playing
 from django.shortcuts import redirect
 
 
-def index(request):
-    #main view with the button
-    return render(request, 'index.html')#The same as his index.html
-
-
 def delete(request):
     return render(request, 'Delete/delete.html')
 def edit(request):
@@ -27,59 +22,35 @@ def play(request):
 ## File ##
 def delete_list(request):
     return render(request, 'Delete/delete_file.html', {
-        'delete_list': File.objects.all(), #Update the key to 'file_list'
+        'delete_list': File.objects.all(), #Update the key to 'delete_list'
     })
     
 ## File ##
 def edit_list(request):
     return render(request, 'Edit/edit_file.html', {
-        'edit_list': File.objects.all(), #Update the key to 'file_list'
+        'edit_list': File.objects.all(), #Update the key to 'edit_list'
     })
     
 ## File ##
 def play_list(request):
     return render(request, 'Play/play_file.html', {
-        'play_list': File.objects.all(), #Update the key to 'file_list'
+        'play_list': File.objects.all(), #Update the key to 'play_list'
     })
 
 
 
-
+## Adding the files ##
+# We check if the newly added name/file combination is valid and if it is we render it with the file_form.html in the add folder
 def add_file(request):
-    # form = FileForm()
     if request.method == "POST":
         form = FileForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            # return HttpResponse (
-            #         status= 204,
-            #         headers ={
-            #             'HX-Trigger': json.dumps({
-            #             "FileListChanged": None,
-            #             "showMessage": f"{form.name} added"
-            #         })
-            #     }
-            # )
     return render(request, 'Add/file_form.html', {'form': FileForm}) 
 
 
-# def edit_file(request, pk):
-#     file = get_object_or_404(File, pk=pk)
-#     form = FileForm(instance=file)  # Define an empty form instance
-#     if request.method == 'POST':
-#         form = FileForm(request.POST, instance=file)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponse(
-#                 status=204,
-#                 headers={
-#                     'HX-Trigger': json.dumps({
-#                         "FileListChanged": None,
-#                         "showMessage": f"{file.name} updated."
-#                     })
-#                 }
-#             )
-    #return render(request, 'Add/file_form.html', {'form': form})
+## Editing files ##
+# This can alow the user to edit the name and/or the file itself
 def edit_file(request, pk):
     file = get_object_or_404(File, pk=pk)
     form = FileForm(instance=file)
@@ -90,10 +61,10 @@ def edit_file(request, pk):
             form.save()
             # Redirect to the edit list view after saving changes
             return redirect('edit')
-
     return render(request, 'Edit/edit_form.html', {'form': form, 'file': file})
 
-
+## Playing files ##
+# If you press on a file yo be played it will call the playing function with the path of the newly selected file by the user
 def play_file(request, pk):
     file = get_object_or_404(File, pk = pk)
     playing(file.path)
@@ -106,7 +77,10 @@ def play_file(request, pk):
                     })
                 }
             )
-    
+
+## Deleting files ##
+# Here we make sure that the file is also removed from your device/ doesn't appear in the media folder anymore after you decided to delete it.
+# For that we again get a file and then use the integrated os extension to gain acces to the device and delete it also locally.     
 @ require_POST
 def remove_file(request, pk):
     file = get_object_or_404(File, pk=pk)
@@ -115,15 +89,8 @@ def remove_file(request, pk):
         if os.path.isfile(file_path):
             os.remove(file_path)
     file.delete()
-    # return HttpResponse(
-    #     status=204,
-    #     headers={
-    #         'HX-Trigger': json.dumps({
-    #             "FileListChanged": None,
-    #             "showMessage": f"{file.name} deleted."
-    #         })
-    #     })
     return render(request,'Delete/delete_file.html')
 
+## This view sets up the website ##
 def website(request):
     return render(request, 'website.html')

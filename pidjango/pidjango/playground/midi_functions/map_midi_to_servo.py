@@ -1,7 +1,7 @@
-import time
-def map_midi_to_server(note, kit):
+def map_midi_to_servo(note):
     # returns string, fret   based on note
-    something = True
+    something = True            # possibility to add condition to play note on certain string
+    
     if note == "A2":
         return 0,0
     elif note == "A#2":

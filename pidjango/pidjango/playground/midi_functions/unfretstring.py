@@ -1,11 +1,7 @@
 def unfret_string(string,fret,kit):
+    # Undo the fretting on a string
     servonumber = 3
-    left_right = 0
     
-    if(fret%2 == 1):
-        left_right = 1
-    else:
-        left_right = 2
     if(fret == 1 or fret == 2):
         servonumber = 13 + string
     elif(fret == 3 or fret == 4):
@@ -18,4 +14,3 @@ def unfret_string(string,fret,kit):
         kit.servo[servonumber].angle = 102 
     else:
         kit.servo[servonumber].angle = 90
-    print("un", servonumber)

@@ -1,12 +1,15 @@
 import time
 def fret_string(string, fret, kit):
-    servonumber = 3
+    # Function to handle fretting a string at the right position corresponding to fret. 
+    servonumber = 3         # standard case, unused spot on servocontroller
     left_right = 0
     
+    # find the which way to turn the servo
     if(fret%2 == 1):
         left_right = 1
     else:
         left_right = 2
+    # find which servo to turn
     if(fret == 1 or fret == 2):
         servonumber = 13 + string
     elif(fret == 3 or fret == 4):
@@ -26,4 +29,4 @@ def fret_string(string, fret, kit):
             kit.servo[servonumber].angle = 122
         else:
             kit.servo[servonumber].angle = 110
-    print(servonumber)
+    
