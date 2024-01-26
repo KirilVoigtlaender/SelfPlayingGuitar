@@ -21,8 +21,25 @@ List of features implemented and in development:
 
 
 ## 🔍 Overview
+The website has four distinct pages, one for each feature seperately. 
 
+There is a page to add files to the database. 
+![Add.png](screenshots/Add.png)
+Here the user can upload a midi file of a song to the database.
 
+A page to edit files.
+![Edit.png](screenshots/Edit.png)
+Here the user can edit a file in the database.
+
+A page to delete files.
+![Delete.png](screenshots/Delete.png)
+On this page the user can delete files that are in the database.
+
+And a page to play files.
+![Play.png](screenshots/Play.png)
+Here the user can choose one of the files in the database to play on the guitar.
+
+The user can switch between pages by clicking the buttons in the navigation bar on top of the page.
 
 ## 🚀 Setup
 
